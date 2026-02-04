@@ -1,0 +1,20 @@
+-- 1. Toutes les colonnes
+SELECT * FROM Clients;
+
+-- 2. Colonnes spécifiques
+SELECT Nom, Prenom, Ville FROM Clients;
+
+-- 3. Avec alias
+SELECT 
+    Nom AS 'Nom de famille',
+    Prenom AS Prénom,
+    Ville AS 'Ville de résidence'
+FROM Clients;
+
+-- 4. Colonnes calculées
+SELECT 
+    Nom,
+    Prenom,
+    Nom + ' ' + Prenom AS 'Nom complet',
+    LEN(Nom) AS 'Longueur du nom'
+FROM Clients;
