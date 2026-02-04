@@ -1,0 +1,20 @@
+-- Créer une table d'archives
+CREATE TABLE Clients_Archive (
+    ClientID INT PRIMARY KEY,
+    Nom NVARCHAR(50),
+    Prenom NVARCHAR(50),
+    Ville NVARCHAR(50),
+    DateArchivage DATETIME DEFAULT GETDATE()
+);
+GO
+
+-- Copier les clients de Paris dans l'archive
+INSERT INTO Clients_Archive (ClientID, Nom, Prenom, Ville)
+SELECT ClientID, Nom, Prenom, Ville
+FROM Clients
+WHERE Ville = N'Paris';
+GO
+
+-- Vérifier
+SELECT * FROM Clients_Archive;
+GO
