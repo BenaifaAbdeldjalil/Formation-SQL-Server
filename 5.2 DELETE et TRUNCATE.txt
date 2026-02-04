@@ -1,0 +1,30 @@
+-- 1. Supprimer une ligne
+DELETE FROM Clients WHERE ClientID = 5;
+
+-- 2. Supprimer avec condition
+DELETE FROM Commandes 
+WHERE DateCommande < '2024-01-01';
+
+-- 3. DELETE avec OUTPUT (voir ce qu'on supprime)
+DELETE FROM Clients_Archive
+OUTPUT DELETED.*
+WHERE Ville = N'Paris';
+
+-- 4. TRUNCATE TABLE (vider complètement)
+TRUNCATE TABLE Clients_Archive;
+-- ATTENTION : ne peut pas être annulé, réinitialise IDENTITY
+
+-- 5. Différence DELETE vs TRUNCATE
+/*
+DELETE : 
+- Peut avoir WHERE
+- Loggé ligne par ligne (plus lent)
+- Ne réinitialise pas IDENTITY
+- Peut être annulé (ROLLBACK)
+
+TRUNCATE :
+- Pas de WHERE
+- Loggé par allocation (très rapide)
+- Réinitialise IDENTITY
+- Difficulté à annuler
+*/
