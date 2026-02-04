@@ -1,0 +1,24 @@
+-- 1. Index non-cluster
+CREATE INDEX IX_Clients_Ville ON Clients(Ville);
+
+-- 2. Index composite
+CREATE INDEX IX_Clients_Nom_Ville ON Clients(Nom, Ville);
+
+-- 3. Index unique
+CREATE UNIQUE INDEX IX_Clients_Email ON Clients(Email);
+
+-- 4. Index avec INCLUDE
+CREATE INDEX IX_Commandes_Date 
+ON Commandes(DateCommande)
+INCLUDE (ClientID, Quantite);
+
+-- 5. Index filtré (SQL Server 2008+)
+CREATE INDEX IX_Clients_Paris 
+ON Clients(Ville)
+WHERE Ville = N'Paris';
+
+-- 6. Voir les index d'une table
+EXEC sp_helpindex 'Clients';
+
+-- 7. Supprimer un index
+DROP INDEX IX_Clients_Ville ON Clients;
