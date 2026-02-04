@@ -1,0 +1,37 @@
+-- 1. INNER JOIN (jointure interne)
+SELECT 
+    c.Nom,
+    c.Prenom,
+    cmd.DateCommande,
+    cmd.Quantite
+FROM Commandes cmd
+INNER JOIN Clients c ON cmd.ClientID = c.ClientID;
+
+-- 2. LEFT JOIN (jointure gauche)
+SELECT 
+    c.Nom,
+    c.Prenom,
+    COUNT(cmd.CommandeID) AS 'Nombre de commandes'
+FROM Clients c
+LEFT JOIN Commandes cmd ON c.ClientID = cmd.ClientID
+GROUP BY c.ClientID, c.Nom, c.Prenom;
+
+-- 3. RIGHT JOIN (jointure droite)
+SELECT 
+    cmd.CommandeID,
+    c.Nom
+FROM Commandes cmd
+RIGHT JOIN Clients c ON cmd.ClientID = c.ClientID
+WHERE cmd.CommandeID IS NULL;  -- Clients sans commande
+
+-- 4. FULL OUTER JOIN
+SELECT 
+    c.Nom,
+    cmd.CommandeID
+FROM Clients c
+FULL OUTER JOIN Commandes cmd ON c.ClientID = cmd.ClientID;
+
+-- 5. CROSS JOIN (produit cartésien)
+SELECT c.Nom, p.Nom
+FROM Clients c
+CROSS JOIN Produits p;  -- Toutes combinaisons clients/produits
