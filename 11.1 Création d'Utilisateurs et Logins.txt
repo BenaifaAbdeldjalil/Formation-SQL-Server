@@ -1,0 +1,20 @@
+-- 1. Créer un login (connexion au serveur)
+CREATE LOGIN AdminBoutique 
+WITH PASSWORD = 'AdminP@ss123!',
+     DEFAULT_DATABASE = Boutique,
+     CHECK_EXPIRATION = OFF,
+     CHECK_POLICY = ON;
+GO
+
+CREATE LOGIN Gestionnaire 
+WITH PASSWORD = 'GestP@ss456!',
+     DEFAULT_DATABASE = Boutique;
+GO
+
+-- 2. Créer des utilisateurs dans la base
+USE Boutique;
+GO
+
+CREATE USER AdminBoutique FOR LOGIN AdminBoutique;
+CREATE USER Gestionnaire FOR LOGIN Gestionnaire;
+GO
