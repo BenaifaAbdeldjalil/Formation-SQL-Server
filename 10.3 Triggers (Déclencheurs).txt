@@ -1,0 +1,41 @@
+-- 1. Trigger AFTER INSERT
+CREATE TRIGGER TR_Commandes_AfterInsert
+ON Commandes
+AFTER INSERT
+AS
+BEGIN
+    -- Mettre à jour le stock
+    UPDATE p
+    SET p.Stock = p.Stock - i.Quantite
+    FROM Produits p
+    INNER JOIN inserted i ON p.ProduitID = i.ProduitID;
+    
+    PRINT 'Stock mis à jour après insertion commande';
+END;
+GO
+
+-- 2. Trigger INSTEAD OF
+CREATE TRIGGER TR_Clients_InsteadOfDelete
+ON Clients
+INSTEAD OF DELETE
+AS
+BEGIN
+    PRINT 'Suppression interdite, archivage à la place';
+    
+    -- Archiver au lieu de supprimer
+    INSERT INTO Clients_Archive (ClientID, Nom, Prenom, Ville)
+    SELECT ClientID, Nom, Prenom, Ville
+    FROM deleted;
+END;
+GO
+
+-- 3. Désactiver/Activer trigger
+DISABLE TRIGGER TR_Commandes_AfterInsert ON Commandes;
+ENABLE TRIGGER TR_Commandes_AfterInsert ON Commandes;
+
+-- 4. Voir les triggers
+SELECT 
+    name,
+    object_name(parent_id) AS TableName,
+    type_desc
+FROM sys.triggers;
