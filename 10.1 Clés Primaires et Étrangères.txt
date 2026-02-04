@@ -1,0 +1,33 @@
+-- 1. Clé primaire avec contrainte nommée
+CREATE TABLE Produits_Avances (
+    ProduitID INT IDENTITY(1,1),
+    Nom NVARCHAR(100) NOT NULL,
+    CONSTRAINT PK_Produits PRIMARY KEY (ProduitID)
+);
+
+-- 2. Clé étrangère avec actions
+ALTER TABLE Commandes
+ADD CONSTRAINT FK_Commandes_Clients
+FOREIGN KEY (ClientID) 
+REFERENCES Clients(ClientID)
+ON DELETE CASCADE    -- Supprime commandes si client supprimé
+ON UPDATE NO ACTION; -- Empêche modification ClientID
+
+ALTER TABLE Commandes
+ADD CONSTRAINT FK_Commandes_Produits
+FOREIGN KEY (ProduitID) 
+REFERENCES Produits(ProduitID)
+ON DELETE NO ACTION   -- Empêche suppression produit commandé
+ON UPDATE CASCADE;    -- Met à jour si ProduitID changé
+
+-- 3. Clé étrangère lors de création
+CREATE TABLE DetailsCommande (
+    DetailID INT IDENTITY(1,1) PRIMARY KEY,
+    CommandeID INT NOT NULL,
+    ProduitID INT NOT NULL,
+    Quantite INT,
+    CONSTRAINT FK_Details_Commandes 
+        FOREIGN KEY (CommandeID) REFERENCES Commandes(CommandeID),
+    CONSTRAINT FK_Details_Produits 
+        FOREIGN KEY (ProduitID) REFERENCES Produits(ProduitID)
+);
