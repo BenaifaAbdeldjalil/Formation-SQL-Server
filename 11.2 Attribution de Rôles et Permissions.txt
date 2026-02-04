@@ -1,0 +1,38 @@
+-- 1. Rôles de base de données
+ALTER ROLE db_owner ADD MEMBER AdminBoutique;
+ALTER ROLE db_datareader ADD MEMBER Gestionnaire;
+ALTER ROLE db_datawriter ADD MEMBER Gestionnaire;
+
+-- 2. Permissions spécifiques
+-- Lecture seule sur toutes tables
+GRANT SELECT ON DATABASE::Boutique TO Gestionnaire;
+
+-- Permissions sur table spécifique
+GRANT SELECT, INSERT, UPDATE ON Clients TO Gestionnaire;
+GRANT SELECT ON Produits TO Gestionnaire;
+
+-- Permission d'exécuter procédures
+GRANT EXECUTE ON OBJECT::usp_AjouterClient TO Gestionnaire;
+
+-- 3. Rôles personnalisés
+CREATE ROLE Role_Gestion_Clients;
+GO
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON Clients TO Role_Gestion_Clients;
+GRANT SELECT ON Commandes TO Role_Gestion_Clients;
+GO
+
+ALTER ROLE Role_Gestion_Clients ADD MEMBER Gestionnaire;
+GO
+
+-- 4. Voir les permissions
+EXEC sp_helprotect NULL, 'Gestionnaire';
+EXEC sp_helprolemember 'Role_Gestion_Clients';
+
+-- 5. Révoquer permissions
+REVOKE DELETE ON Clients FROM Gestionnaire;
+REVOKE SELECT ON Produits FROM Gestionnaire;
+
+-- 6. Supprimer utilisateurs
+DROP USER Gestionnaire;
+DROP LOGIN Gestionnaire;
