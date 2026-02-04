@@ -1,0 +1,60 @@
+-- Insertion avec IDENTITY (auto-incrément)
+INSERT INTO Clients (Nom, Prenom, Email, Ville) 
+VALUES 
+(N'Dupont', N'Jean', N'jean.dupont@email.com', N'Paris'),
+(N'Martin', N'Sophie', N'sophie.martin@email.com', N'Lyon'),
+(N'Bernard', N'Pierre', N'pierre.bernard@email.com', N'Marseille'),
+(N'Dubois', N'Marie', N'marie.dubois@email.com', N'Paris'),
+(N'Petit', N'Thomas', N'thomas.petit@email.com', N'Lille');
+GO
+
+-- Vérifier (les ID sont automatiques : 1, 2, 3...)
+SELECT * FROM Clients;
+GO
+
+
+-- Insertion multiple en une commande
+INSERT INTO Produits (Nom, Prix, Categorie, Stock) VALUES
+(N'Ordinateur Portable', 799.99, N'Électronique', 10),
+(N'Smartphone', 499.99, N'Électronique', 25),
+(N'Livre SQL Server', 39.99, N'Livres', 50),
+(N'Cafetière', 89.99, N'Maison', 15),
+(N'Chaise de Bureau', 199.99, N'Mobilier', 8);
+GO
+
+-- Afficher avec formatage
+SELECT 
+    ProduitID,
+    Nom,
+    FORMAT(Prix, 'C', 'fr-FR') AS 'Prix',
+    Categorie,
+    Stock
+FROM Produits;
+GO
+
+-- Insérer des commandes cohérentes
+INSERT INTO Commandes (ClientID, ProduitID, Quantite, DateCommande) VALUES
+(1, 1, 1, '2024-03-01'),  -- Client 1 achète Produit 1
+(1, 3, 2, '2024-03-02'),  -- Client 1 achète Produit 3
+(2, 2, 1, '2024-03-03'),  -- Client 2 achète Produit 2
+(3, 4, 1, '2024-03-04'),  -- Client 3 achète Produit 4
+(4, 5, 1, '2024-03-05');  -- Client 4 achète Produit 5
+GO
+
+-- Vérifier
+SELECT * FROM Commandes;
+GO
+
+-- Afficher avec informations détaillées
+SELECT 
+    c.CommandeID,
+    cl.Nom + ' ' + cl.Prenom AS Client,
+    p.Nom AS Produit,
+    c.Quantite,
+    p.Prix,
+    (c.Quantite * p.Prix) AS Total,
+    c.DateCommande
+FROM Commandes c
+INNER JOIN Clients cl ON c.ClientID = cl.ClientID
+INNER JOIN Produits p ON c.ProduitID = p.ProduitID;
+GO
