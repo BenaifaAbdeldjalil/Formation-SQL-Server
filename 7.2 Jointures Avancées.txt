@@ -1,0 +1,34 @@
+-- 1. SELF JOIN (jointure sur elle-même)
+CREATE TABLE Employes (
+    EmployeID INT PRIMARY KEY,
+    Nom NVARCHAR(50),
+    ManagerID INT
+);
+
+SELECT 
+    e.Nom AS 'Employé',
+    m.Nom AS 'Manager'
+FROM Employes e
+LEFT JOIN Employes m ON e.ManagerID = m.EmployeID;
+
+-- 2. JOIN avec plusieurs tables
+SELECT 
+    cl.Nom + ' ' + cl.Prenom AS 'Client',
+    p.Nom AS 'Produit',
+    c.Quantite,
+    p.Prix,
+    (c.Quantite * p.Prix) AS 'Total',
+    FORMAT(c.DateCommande, 'dd/MM/yyyy') AS 'Date'
+FROM Commandes c
+INNER JOIN Clients cl ON c.ClientID = cl.ClientID
+INNER JOIN Produits p ON c.ProduitID = p.ProduitID
+ORDER BY c.DateCommande DESC;
+
+-- 3. JOIN avec conditions complexes
+SELECT 
+    c.*,
+    p.Nom
+FROM Commandes c
+JOIN Produits p ON c.ProduitID = p.ProduitID
+    AND p.Prix > 100  -- Condition dans le JOIN
+    AND p.Stock > 0;
