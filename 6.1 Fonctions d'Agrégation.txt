@@ -1,0 +1,25 @@
+-- 1. COUNT
+SELECT COUNT(*) AS 'Total Clients' FROM Clients;
+SELECT COUNT(*) AS 'Clients Paris' FROM Clients WHERE Ville = N'Paris';
+SELECT COUNT(DISTINCT Ville) AS 'Villes différentes' FROM Clients;
+
+-- 2. SUM
+SELECT SUM(Prix) AS 'Valeur totale stock' FROM Produits;
+SELECT 
+    SUM(p.Prix * c.Quantite) AS 'Chiffre d affaires'
+FROM Commandes c
+INNER JOIN Produits p ON c.ProduitID = p.ProduitID;
+
+-- 3. AVG
+SELECT AVG(Prix) AS 'Prix moyen' FROM Produits;
+
+-- 4. MIN/MAX
+SELECT MIN(Prix) AS 'Produit moins cher' FROM Produits;
+SELECT MAX(Prix) AS 'Produit plus cher' FROM Produits;
+
+-- 5. STRING_AGG (SQL Server 2017+)
+SELECT 
+    Ville,
+    STRING_AGG(Nom + ' ' + Prenom, ', ') AS 'Clients'
+FROM Clients
+GROUP BY Ville;
