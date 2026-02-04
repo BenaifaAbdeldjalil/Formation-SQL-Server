@@ -1,0 +1,25 @@
+-- 1. Mettre à jour les statistiques
+UPDATE STATISTICS Clients;
+UPDATE STATISTICS Clients IX_Clients_Ville;
+
+-- 2. Voir les statistiques
+DBCC SHOW_STATISTICS ('Clients', 'IX_Clients_Ville');
+
+-- 3. Reconstruire un index
+ALTER INDEX IX_Clients_Ville ON Clients REBUILD;
+
+-- 4. Réorganiser un index
+ALTER INDEX IX_Clients_Ville ON Clients REORGANIZE;
+
+-- 5. Vérifier la fragmentation
+SELECT 
+    object_name(object_id) AS TableName,
+    index_id,
+    avg_fragmentation_in_percent
+FROM sys.dm_db_index_physical_stats(
+    DB_ID(), 
+    OBJECT_ID('Clients'), 
+    NULL, 
+    NULL, 
+    'LIMITED'
+);
