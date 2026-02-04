@@ -1,0 +1,58 @@
+-- 1. Créer la base avec paramètres
+CREATE DATABASE Boutique
+ON PRIMARY (
+    NAME = Boutique_Data,
+    FILENAME = 'C:\SQLData\Boutique.mdf',
+    SIZE = 100MB,
+    MAXSIZE = UNLIMITED,
+    FILEGROWTH = 10%
+)
+LOG ON (
+    NAME = Boutique_Log,
+    FILENAME = 'C:\SQLLog\Boutique.ldf',
+    SIZE = 50MB,
+    MAXSIZE = 2GB,
+    FILEGROWTH = 5%
+);
+GO
+
+USE Boutique;
+GO
+
+-- 2. Table Clients (version simple)
+CREATE TABLE Clients (
+    ClientID INT IDENTITY(1,1) PRIMARY KEY,  -- Auto-incrément
+    Nom NVARCHAR(50) NOT NULL,
+    Prenom NVARCHAR(50) NOT NULL,
+    Email NVARCHAR(100),
+    Ville NVARCHAR(50) DEFAULT 'Paris',
+    DateInscription DATETIME DEFAULT GETDATE()
+);
+GO
+
+-- 3. Table Produits (version simple)
+CREATE TABLE Produits (
+    ProduitID INT IDENTITY(1,1) PRIMARY KEY,
+    Nom NVARCHAR(100) NOT NULL,
+    Prix DECIMAL(10,2) NOT NULL,
+    Categorie NVARCHAR(50),
+    Stock INT DEFAULT 0,
+    DateAjout DATETIME DEFAULT GETDATE()
+);
+GO
+
+-- 4. Table Commandes (version simple)
+CREATE TABLE Commandes (
+    CommandeID INT IDENTITY(1,1) PRIMARY KEY,
+    ClientID INT,
+    ProduitID INT,
+    Quantite INT,
+    DateCommande DATE DEFAULT CAST(GETDATE() AS DATE)
+);
+GO
+
+-- Vérification
+SELECT name AS TableName 
+FROM sys.tables 
+ORDER BY name;
+GO
