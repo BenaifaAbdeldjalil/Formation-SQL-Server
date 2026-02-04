@@ -1,0 +1,27 @@
+-- 1. Ouvrir SSMS et se connecter
+-- Serveur : (local) ou .\SQLEXPRESS
+-- Authentification : SQL Server
+-- Login : sa
+-- Password : votre mot de passe
+
+-- 2. Créer notre première base
+CREATE DATABASE FormationSQLServer;
+GO  -- Commande pour exécuter le lot précédent
+
+USE FormationSQLServer;
+GO
+
+-- 3. Créer une table simple
+CREATE TABLE Personnes (
+    Nom VARCHAR(50),
+    Age INT
+);
+GO
+
+-- 4. Première insertion
+INSERT INTO Personnes (Nom, Age) VALUES ('Jean', 25);
+GO
+
+-- 5. Première lecture
+SELECT * FROM Personnes;
+GO
