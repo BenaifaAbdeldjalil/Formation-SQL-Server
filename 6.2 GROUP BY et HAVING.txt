@@ -1,0 +1,34 @@
+-- 1. GROUP BY simple
+SELECT 
+    Ville,
+    COUNT(*) AS 'Nombre de clients'
+FROM Clients
+GROUP BY Ville
+ORDER BY COUNT(*) DESC;
+
+-- 2. GROUP BY multiple
+SELECT 
+    Categorie,
+    COUNT(*) AS 'Nombre de produits',
+    AVG(Prix) AS 'Prix moyen',
+    SUM(Stock) AS 'Stock total'
+FROM Produits
+GROUP BY Categorie;
+
+-- 3. HAVING (filtre sur groupes)
+SELECT 
+    Ville,
+    COUNT(*) AS 'nb_clients'
+FROM Clients
+GROUP BY Ville
+HAVING COUNT(*) >= 2;  -- Villes avec 2+ clients
+
+-- 4. GROUP BY avec ROLLUP (sous-totaux)
+SELECT 
+    Ville,
+    Categorie,
+    COUNT(*) AS 'Nombre'
+FROM Clients c
+LEFT JOIN Commandes cmd ON c.ClientID = cmd.ClientID
+LEFT JOIN Produits p ON cmd.ProduitID = p.ProduitID
+GROUP BY ROLLUP(Ville, Categorie);
