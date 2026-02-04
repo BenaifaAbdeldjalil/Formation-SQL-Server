@@ -1,0 +1,26 @@
+/*
+Types NUMÉRIQUES :
+- INT : -2,147,483,648 à 2,147,483,647
+- BIGINT : très grands entiers
+- DECIMAL(10,2) : nombre exact, 10 chiffres, 2 décimales
+- FLOAT : nombre à virgule flottante
+- MONEY : données monétaires
+
+Types TEXTE :
+- VARCHAR(100) : texte variable
+- NVARCHAR(100) : texte Unicode (français, accents)
+- CHAR(10) : texte fixe
+- TEXT : ancien type, utiliser VARCHAR(MAX)
+
+Types DATE :
+- DATE : '2024-03-15'
+- DATETIME : '2024-03-15 14:30:00.000'
+- DATETIME2 : plus précis
+- SMALLDATETIME : date/heure légère
+
+Types SPÉCIAUX :
+- BIT : 0 ou 1 (BOOLÉEN)
+- UNIQUEIDENTIFIER : GUID
+- XML : données XML
+- VARBINARY(MAX) : fichiers binaires
+*/
