@@ -1,0 +1,15 @@
+-- MERGE combine INSERT, UPDATE, DELETE
+MERGE INTO Clients AS target
+USING (VALUES 
+    (N'Nouveau', N'Client', N'nouveau@email.com', N'Paris')
+) AS source (Nom, Prenom, Email, Ville)
+ON target.Email = source.Email
+WHEN MATCHED THEN
+    UPDATE SET 
+        target.Nom = source.Nom,
+        target.Prenom = source.Prenom,
+        target.Ville = source.Ville
+WHEN NOT MATCHED THEN
+    INSERT (Nom, Prenom, Email, Ville)
+    VALUES (source.Nom, source.Prenom, source.Email, source.Ville);
+GO
