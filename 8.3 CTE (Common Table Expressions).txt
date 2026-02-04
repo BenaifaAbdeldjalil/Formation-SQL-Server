@@ -1,0 +1,50 @@
+-- 1. CTE simple
+WITH ClientsParis AS (
+    SELECT ClientID, Nom, Prenom
+    FROM Clients
+    WHERE Ville = N'Paris'
+)
+SELECT * FROM ClientsParis;
+
+-- 2. CTE multiple
+WITH 
+CommandesDetails AS (
+    SELECT 
+        c.ClientID,
+        p.ProduitID,
+        c.Quantite * p.Prix AS Montant
+    FROM Commandes c
+    JOIN Produits p ON c.ProduitID = p.ProduitID
+),
+StatsClient AS (
+    SELECT 
+        ClientID,
+        COUNT(*) AS NbCommandes,
+        SUM(Montant) AS TotalDepense
+    FROM CommandesDetails
+    GROUP BY ClientID
+)
+SELECT 
+    cl.Nom,
+    cl.Prenom,
+    sc.NbCommandes,
+    sc.TotalDepense
+FROM StatsClient sc
+JOIN Clients cl ON sc.ClientID = cl.ClientID
+ORDER BY sc.TotalDepense DESC;
+
+-- 3. CTE récursif (pour hiérarchies)
+WITH HierarchieEmployes AS (
+    -- Ancrage
+    SELECT EmployeID, Nom, ManagerID, 1 AS Niveau
+    FROM Employes
+    WHERE ManagerID IS NULL
+    
+    UNION ALL
+    
+    -- Récursion
+    SELECT e.EmployeID, e.Nom, e.ManagerID, he.Niveau + 1
+    FROM Employes e
+    INNER JOIN HierarchieEmployes he ON e.ManagerID = he.EmployeID
+)
+SELECT * FROM HierarchieEmployes ORDER BY Niveau, Nom;
