@@ -1,0 +1,15 @@
+-- 1. Télécharger SQL Server 2022 Developer Edition (gratuit)
+-- https://www.microsoft.com/fr-fr/sql-server/sql-server-downloads
+
+-- 2. Installer avec :
+-- - Moteur de base de données
+-- - SQL Server Management Studio (SSMS)
+-- - Configuration : Mode d'authentification mixte (Windows + SQL)
+-- - Mot de passe SA : SaP@ssw0rd123!
+
+-- 3. Installer SSMS séparément
+-- https://aka.ms/ssmsfullsetup
+
+-- 4. Vérification :
+SELECT @@VERSION;
+SELECT '✅ SQL Server installé avec succès !' AS message;
