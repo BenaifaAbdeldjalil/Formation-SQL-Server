@@ -1,0 +1,34 @@
+-- 1. IN
+SELECT Nom, Prenom 
+FROM Clients 
+WHERE ClientID IN (
+    SELECT DISTINCT ClientID 
+    FROM Commandes
+);
+
+-- 2. Comparaison
+SELECT Nom, Prix 
+FROM Produits 
+WHERE Prix > (
+    SELECT AVG(Prix) 
+    FROM Produits
+);
+
+-- 3. EXISTS
+SELECT Nom, Prenom 
+FROM Clients c
+WHERE EXISTS (
+    SELECT 1 
+    FROM Commandes cmd 
+    WHERE cmd.ClientID = c.ClientID
+    AND cmd.DateCommande > DATEADD(month, -1, GETDATE())
+);
+
+-- 4. ANY/ALL
+SELECT Nom, Prix 
+FROM Produits 
+WHERE Prix > ALL (
+    SELECT Prix 
+    FROM Produits 
+    WHERE Categorie = N'Livres'
+);
