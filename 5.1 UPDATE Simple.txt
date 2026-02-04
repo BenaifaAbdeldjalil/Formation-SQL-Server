@@ -1,0 +1,28 @@
+-- 1. Modifier une ligne
+UPDATE Clients 
+SET Ville = N'Lyon'
+WHERE ClientID = 1;
+
+-- 2. Modifier plusieurs colonnes
+UPDATE Clients 
+SET 
+    Ville = N'Marseille',
+    Email = N'nouveau@email.com'
+WHERE Nom = N'Bernard';
+
+-- 3. Modification avec calcul
+UPDATE Produits 
+SET Prix = Prix * 0.9 
+WHERE Categorie = N'Électronique';
+
+-- 4. UPDATE avec JOIN
+UPDATE p
+SET p.Stock = p.Stock - c.Quantite
+FROM Produits p
+INNER JOIN Commandes c ON p.ProduitID = c.ProduitID
+WHERE c.CommandeID = 1;
+
+-- 5. Vérifier avant/après
+SELECT * FROM Clients WHERE ClientID = 1;
+UPDATE Clients SET Ville = N'Lyon' WHERE ClientID = 1;
+SELECT * FROM Clients WHERE ClientID = 1;
