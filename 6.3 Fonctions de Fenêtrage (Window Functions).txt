@@ -1,0 +1,34 @@
+-- 1. ROW_NUMBER()
+SELECT 
+    Nom,
+    Prenom,
+    Ville,
+    ROW_NUMBER() OVER (PARTITION BY Ville ORDER BY Nom) AS 'Rang dans la ville'
+FROM Clients;
+
+-- 2. RANK() et DENSE_RANK()
+SELECT 
+    Nom,
+    Prix,
+    RANK() OVER (ORDER BY Prix DESC) AS 'Rang',
+    DENSE_RANK() OVER (ORDER BY Prix DESC) AS 'Rang dense'
+FROM Produits;
+
+-- 3. LAG() et LEAD()
+SELECT 
+    CommandeID,
+    DateCommande,
+    Quantite,
+    LAG(Quantite) OVER (ORDER BY DateCommande) AS 'Quantité précédente',
+    LEAD(Quantite) OVER (ORDER BY DateCommande) AS 'Quantité suivante'
+FROM Commandes;
+
+-- 4. SUM() cumulatif
+SELECT 
+    DateCommande,
+    Quantite,
+    SUM(Quantite) OVER (
+        ORDER BY DateCommande 
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    ) AS 'Cumul des quantités'
+FROM Commandes;
