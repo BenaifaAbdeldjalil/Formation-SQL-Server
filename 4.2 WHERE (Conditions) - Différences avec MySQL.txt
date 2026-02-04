@@ -1,0 +1,23 @@
+-- 1. Condition simple
+SELECT * FROM Clients WHERE Ville = N'Paris';
+
+-- 2. Conditions multiples
+SELECT * FROM Clients 
+WHERE Ville = N'Paris' AND Nom LIKE N'D%';
+
+-- 3. Opérateurs de comparaison
+SELECT * FROM Produits WHERE Prix > 100;
+SELECT * FROM Produits WHERE Prix BETWEEN 50 AND 200;
+SELECT * FROM Clients WHERE Ville IN (N'Paris', N'Lyon');
+
+-- 4. LIKE avec SQL Server
+SELECT * FROM Clients WHERE Nom LIKE N'M%';      -- Commence par M
+SELECT * FROM Clients WHERE Nom LIKE N'%er%';    -- Contient "er"
+SELECT * FROM Clients WHERE Nom LIKE N'_[ea]%';  -- 2e lettre e ou a
+
+-- 5. IS NULL / IS NOT NULL
+SELECT * FROM Clients WHERE Email IS NOT NULL;
+
+-- 6. TOP (équivalent LIMIT MySQL)
+SELECT TOP 3 * FROM Clients;                    -- 3 premiers
+SELECT TOP 50 PERCENT * FROM Clients;           -- 50% des lignes
