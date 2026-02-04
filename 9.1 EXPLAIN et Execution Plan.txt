@@ -1,0 +1,19 @@
+-- 1. Afficher le plan d'exécution estimé
+SET SHOWPLAN_ALL ON;
+GO
+SELECT * FROM Clients WHERE Ville = N'Paris';
+GO
+SET SHOWPLAN_ALL OFF;
+GO
+
+-- 2. Voir le plan d'exécution réel
+SET STATISTICS PROFILE ON;
+GO
+SELECT * FROM Clients WHERE Ville = N'Paris';
+GO
+SET STATISTICS PROFILE OFF;
+GO
+
+-- 3. Dans SSMS : 
+-- - Cliquer "Display Estimated Execution Plan" (Ctrl+L)
+-- - Ou "Include Actual Execution Plan" (Ctrl+M)
