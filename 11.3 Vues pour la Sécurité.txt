@@ -1,0 +1,28 @@
+-- 1. Créer une vue sécurisée
+CREATE VIEW Vue_Clients_Public
+AS
+SELECT 
+    ClientID,
+    Nom,
+    Prenom,
+    LEFT(Email, CHARINDEX('@', Email) - 1) + '@***' AS EmailMasque,
+    Ville
+FROM Clients;
+GO
+
+-- 2. Donner accès à la vue
+GRANT SELECT ON Vue_Clients_Public TO Gestionnaire;
+
+-- 3. Vue avec vérification d'utilisateur
+CREATE VIEW Vue_Mes_Commandes
+WITH SCHEMABINDING
+AS
+SELECT 
+    c.CommandeID,
+    p.Nom AS Produit,
+    c.Quantite,
+    c.DateCommande
+FROM dbo.Commandes c
+JOIN dbo.Produits p ON c.ProduitID = p.ProduitID
+WHERE c.ClientID = USER_ID();  -- Seulement les commandes de l'utilisateur
+GO
