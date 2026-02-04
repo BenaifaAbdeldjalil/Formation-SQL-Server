@@ -1,0 +1,12 @@
+-- Nombre de commandes par client
+SELECT 
+    Nom,
+    Prenom,
+    (SELECT COUNT(*) 
+     FROM Commandes c 
+     WHERE c.ClientID = cl.ClientID) AS 'Nombre de commandes',
+    (SELECT SUM(c.Quantite * p.Prix)
+     FROM Commandes c
+     JOIN Produits p ON c.ProduitID = p.ProduitID
+     WHERE c.ClientID = cl.ClientID) AS 'Total dépensé'
+FROM Clients cl;
