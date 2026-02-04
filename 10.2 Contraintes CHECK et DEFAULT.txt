@@ -1,0 +1,30 @@
+-- 1. Contrainte CHECK
+ALTER TABLE Produits
+ADD CONSTRAINT CHK_Prix_Positif 
+CHECK (Prix > 0);
+
+ALTER TABLE Commandes
+ADD CONSTRAINT CHK_Quantite_Positive 
+CHECK (Quantite > 0);
+
+ALTER TABLE Clients
+ADD CONSTRAINT CHK_Email_Format 
+CHECK (Email LIKE '%@%.%');
+
+-- 2. Valeur par défaut
+ALTER TABLE Clients
+ADD CONSTRAINT DF_Clients_DateInscription 
+DEFAULT GETDATE() FOR DateInscription;
+
+ALTER TABLE Produits
+ADD CONSTRAINT DF_Produits_DateAjout 
+DEFAULT GETDATE() FOR DateAjout;
+
+-- 3. Contrainte UNIQUE
+ALTER TABLE Clients
+ADD CONSTRAINT UC_Clients_Email 
+UNIQUE (Email);
+
+-- 4. NOT NULL
+ALTER TABLE Clients
+ALTER COLUMN Email NVARCHAR(100) NOT NULL;
